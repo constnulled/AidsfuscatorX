@@ -1,0 +1,21 @@
+package dev.lvstrng.aidsfuscator.property;
+
+public enum Property {
+    IGNORE_INTEGER,
+    IGNORE_LONG,
+    IGNORE_STRING,
+    IGNORE_FLOW_INTS,
+    IGNORE_VAR_USAGE,
+
+    INTEGER_DECRYPTOR,
+    STRING_DECRYPTOR,
+
+    SENSITIVE_CONSTANT,
+    UNPROTECTED_SALT,
+    IGNORE_REF_OBFUSCATION,
+
+    SALT_ARTIFACT,
+    FIELD_SALT_ARTIFACT,
+
+    IGNORE_SWITCH_MUTATION;
+}

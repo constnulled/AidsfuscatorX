@@ -1,0 +1,10 @@
+[
+	["crackme/Main", "crackme/log/Logger"],
+	["crackme/log/Logger", "crackme/security/printlock/PrintLock"],
+	["crackme/security/printlock/PrintLock", "crackme/security/printlock/DummyOutputStream"],
+	["crackme/log/Logger", "crackme/log/LogLevel"],
+	["crackme/Main", "crackme/security/Loader"],
+	["crackme/security/Loader", "crackme/security/SecurityState"],
+	["crackme/security/Loader", "crackme/security/ProtectionUtils"],
+	["crackme/security/Loader", "crackme/util/MathUtil"]
+]

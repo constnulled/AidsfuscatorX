@@ -1,0 +1,142 @@
+{
+  "in": "jnicx.jar",
+  "out": "jnicx-obf.jar",
+  "libs": "libs/",
+  "dictionary": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
+  "computeFrames": true,
+  "watermark": "i like kuzhi Mandi",
+  "mappingFormat": "proguard",
+  "aggressiveOverload": true,
+  "exclusionPresets": [
+    "api",
+    "mc-fabric"
+  ],
+  "transformers": {
+    "TrimTransformer": {
+      "enabled": true,
+      "classes": true,
+      "fields": true,
+      "methods": true
+    },
+    "RenameFieldTransformer": {
+      "enabled": true,
+      "preserveRecordNames": true,
+      "keepSerializableNames": false,
+      "prefix": "",
+      "shuffle": true
+    },
+    "RenameMethodTransformer": {
+      "enabled": true,
+      "prefix": "",
+      "shuffle": true
+    },
+    "RenameClasseTransformer": {
+      "enabled": true,
+      "prefix": "a.",
+      "mixinPrefix": "b.",
+      "renameSourceFile": true,
+      "randomize": true
+    },
+    "PackageObfuscateTransformer": {
+      "enabled": false,
+      "mode": "EXPLODE",
+      "flatPackage": "",
+      "explodeDepth": 6,
+      "mixinSafe": true
+    },
+    "LocalNameTransformer": {
+      "enabled": true
+    },
+    "LineNumberTransformer": {
+      "enabled": true,
+      "remove": true
+    },
+    "SourceFileTransformer": {
+      "enabled": true,
+      "fake": false
+    },
+    "MethodSaltingTransformer": {
+      "enabled": true
+    },
+    "ClassSaltingTransformer": {
+      "enabled": true,
+      "unifyAccess": true
+    },
+    "MethodParameterChangerTransformer": {
+      "enabled": true
+    },
+    "MethodParameterObfuscationTransformer": {
+      "enabled": true
+    },
+    "FixConstantsTransformer": {
+      "enabled": true
+    },
+    "IntegerEncryptTransformer": {
+      "enabled": true,
+      "excludeLowSignificant": true
+    },
+    "LongEncryptTransformer": {
+      "enabled": true,
+      "excludeLconst": false
+    },
+    "EncryptStringsTransformer": {
+      "enabled": true,
+      "translateConcat": true,
+      "minLength": 2
+    },
+    "InvokeDynamicConstantTransformer": {
+      "enabled": true,
+      "constants": true,
+      "classes": true,
+      "math": true,
+      "skipSmallConstants": false
+    },
+    "FlowIntsTransformer": {
+      "enabled": true,
+      "obfuscateLongs": true,
+      "separateBlocks": true,
+      "confuseFlow": true
+    },
+    "OpaquePredicatesTransformer": {
+      "enabled": true,
+      "density": 67,
+      "fieldPredicates": true
+    },
+    "ControlFlowFlattenTransformer": {
+      "enabled": true,
+      "useSalt": true
+    },
+    "ControlFlowShuffleTransformer": {
+      "enabled": true
+    },
+    "VirtualizerTransformer": {
+      "enabled": false,
+      "maxMethodsPerClass": 10,
+      "randomizeIsa": true,
+      "encryptBytecode": true
+    },
+    "CleanDeadCodeTransformer": {
+      "enabled": true
+    },
+    "MethodHandleObfuscationTransformer": {
+      "enabled": true
+    },
+    "ReferenceObfuscateTransformer": {
+      "enabled": true
+    },
+    "ShuffleMembersTransformer": {
+      "enabled": true,
+      "shuffleMethods": true,
+      "shuffleFields": true,
+      "skipEnums": true,
+      "skipRecords": true
+    },
+    "HashIntegrityTransformer": {
+      "enabled": true
+    },
+    "WatermarkTransformer": {
+      "enabled": true,
+      "text": "Obfuscated by Aidsfuscator"
+   }
+  }
+}

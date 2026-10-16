@@ -1,0 +1,116 @@
+name: build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup JDK 25
+        uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Get next build number
+        id: pre_build
+        run: |
+          LAST_NUM=$(git ls-remote --tags origin | grep -o 'refs/tags/v[0-9]*$' | sed 's/.*v//' | sort -n | tail -n1)
+
+          if [ -z "$LAST_NUM" ]; then
+            NEXT_NUM=1
+          else
+            NEXT_NUM=$((LAST_NUM + 1))
+          fi
+
+          echo "next_number=$NEXT_NUM" >> "$GITHUB_OUTPUT"
+
+      - name: Build and install Clique from source
+        run: |
+          git clone --branch dev https://github.com/kusoroadeolu/Clique.git clique-dev
+          cd clique-dev
+          mvn -B install -DskipTests
+          cd ..
+
+      - name: Build with Maven
+        run: |
+          mvn -B clean package \
+            --file pom.xml \
+            -DskipTests \
+            -Dbuild.number=${{ steps.pre_build.outputs.next_number }}
+
+      - name: Rename JAR and package with workspace
+        id: package
+        run: |
+          NEXT_NUM=${{ steps.pre_build.outputs.next_number }}
+
+          ORIGINAL_JAR="aidsfuscator-main/target/aidsfuscator-obfuscator-1.0-SNAPSHOT.jar"
+
+          if [ ! -f "$ORIGINAL_JAR" ]; then
+            echo "❌ ERROR: Shaded JAR not found at $ORIGINAL_JAR"
+            ls -la aidsfuscator-main/target/
+            exit 1
+          fi
+
+          JAR_NAME="aidsfuscator-${NEXT_NUM}.jar"
+          cp "$ORIGINAL_JAR" "$JAR_NAME"
+
+          ZIP_NAME="aidsfuscator-${NEXT_NUM}.zip"
+          zip -r "$ZIP_NAME" workspace/ "$JAR_NAME"
+
+          echo "JAR_FILE=$JAR_NAME" >> "$GITHUB_ENV"
+          echo "ZIP_FILE=$ZIP_NAME" >> "$GITHUB_ENV"
+          echo "next_number=$NEXT_NUM" >> "$GITHUB_OUTPUT"
+
+          echo "✅ Packaged: $ZIP_NAME"
+
+      - name: Generate changelog
+        run: |
+          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          REPO_URL="${{ github.server_url }}/${{ github.repository }}"
+
+          echo "## Changes" > CHANGELOG.md
+
+          if [ -z "$LAST_TAG" ]; then
+            echo "_Initial release_" >> CHANGELOG.md
+            echo "" >> CHANGELOG.md
+
+            git log --pretty=format:"- %s ([%h](${REPO_URL}/commit/%H))" >> CHANGELOG.md
+          else
+            echo "_Changes since $LAST_TAG_" >> CHANGELOG.md
+            echo "" >> CHANGELOG.md
+
+            git log "$LAST_TAG..HEAD" \
+              --pretty=format:"- %s ([%h](${REPO_URL}/commit/%H))" >> CHANGELOG.md
+          fi
+
+          echo "" >> CHANGELOG.md
+
+          echo "Generated CHANGELOG.md:"
+          cat CHANGELOG.md
+
+      - name: Upload to GitHub Release
+        uses: softprops/action-gh-release@v3.0.3
+        with:
+          files: |
+            ${{ env.ZIP_FILE }}
+            ${{ env.JAR_FILE }}
+          tag_name: v${{ steps.package.outputs.next_number }}
+          name: Aidsfuscator Build ${{ steps.package.outputs.next_number }}
+          body_path: CHANGELOG.md
+          overwrite_files: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
