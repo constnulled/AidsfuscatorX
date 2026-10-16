@@ -16,7 +16,8 @@
       "enabled": true,
       "classes": true,
       "fields": true,
-      "methods": true
+      "methods": true,
+      "keepPublicApi": false
     },
     "RenameFieldTransformer": {
       "enabled": true,
@@ -66,7 +67,7 @@
       "enabled": true
     },
     "MethodParameterObfuscationTransformer": {
-      "enabled": true
+      "enabled": false
     },
     "FixConstantsTransformer": {
       "enabled": true
