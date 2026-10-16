@@ -1,7 +1,7 @@
 > [!IMPORTANT]
 > **Community Continuation & Attribution Notice**
 > 
-> **AidsfuscatorX** is an unofficial, enhanced continuation of **[Aidsfuscator](https://github.com/LvStrnggg/aidsfuscator)**, originally created and developed by **[LvStrnggg](https://github.com/LvStrnggg)** (`lvstrng` on Discord).
+> **AidsfuscatorX** is an unofficial, enhanced continuation of **[Aidsfuscator](https://github.com/LvStrnggg/aidsfuscator)**, originally created and developed by **[LvStrnggg](https://github.com/LvStrnggg)** .
 > 
 **AidsfuscatorX** was created to implement experimental new transformers, additional obfuscation features, and bug fixes.
 > 
