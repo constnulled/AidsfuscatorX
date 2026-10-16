@@ -16,6 +16,9 @@ import org.objectweb.asm.tree.*;
 import java.util.HashSet;
 import java.util.Set;
 
+/* currently its has bug
+*/
+
 public class MethodParameterObfuscationTransformer extends Transformer {
 
     public MethodParameterObfuscationTransformer() {
