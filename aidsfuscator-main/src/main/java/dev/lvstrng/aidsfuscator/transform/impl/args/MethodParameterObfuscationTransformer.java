@@ -114,9 +114,12 @@ public class MethodParameterObfuscationTransformer extends Transformer {
 
         for (var member : impactedClasses(context, clazz, method)) {
             var m = member.findMethod(method.name(), method.desc()).orElse(method);
-            if (Exclusions.PARAMETER_OBFUSCATE.excluded(member)) return true;
-            if (Exclusions.PARAMETER_OBFUSCATE.excluded(member, m)) return true;
-            if (cantEditMethod(member, m)) return true;
+            if (Exclusions.PARAMETER_OBFUSCATE.excluded(member)) 
+               return true;
+            if (Exclusions.PARAMETER_OBFUSCATE.excluded(member, m)) 
+               return true;
+            if (cantEditMethod(member, m)) 
+               return true;
             if (graph.refs(m).stream().anyMatch(MethodReference::cantEdit)) return true;
         }
 
@@ -139,9 +142,15 @@ public class MethodParameterObfuscationTransformer extends Transformer {
 
         for (var insn : method.insns()) {
             switch (insn) {
-                case VarInsnNode v -> { if (v.var >= argIndex) v.var++; }
-                case IincInsnNode v -> { if (v.var >= argIndex) v.var++; }
-                default -> {}
+                case VarInsnNode v -> { 
+                    if (v.var >= argIndex) v.var++; 
+                }
+                case IincInsnNode v -> { 
+                    if (v.var >= argIndex) v.var++; 
+                    
+                }
+                default -> {
+                }
             }
         }
 

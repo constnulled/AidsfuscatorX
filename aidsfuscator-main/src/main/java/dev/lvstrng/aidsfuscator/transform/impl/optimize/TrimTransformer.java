@@ -57,7 +57,8 @@ public class TrimTransformer extends Transformer {
             }
 
             for (JField field : cls.fields()) {
-                if (classKept || Exclusions.TRIM.excluded(field)) {
+                if (classKept 
+                     || Exclusions.TRIM.excluded(field)) {
                     reachableClasses.add(cls);
                     reachableFields.add(field);
                 }
@@ -66,7 +67,8 @@ public class TrimTransformer extends Transformer {
 
         if (keepPublicApi.value()) {
             for (JClass cls : context.classes()) {
-                if (!cls.isPublic()) continue;
+                if (!cls.isPublic()) 
+                    continue;
                 reachableClasses.add(cls);
                 instantiated.add(cls);
                 for (JMethod method : cls.methods()) {
@@ -87,12 +89,7 @@ public class TrimTransformer extends Transformer {
         }
     }
 
-    private void propagate(Context context,
-                           Set<JClass>  reachableClasses,
-                           Set<JClass>  instantiated,
-                           Set<JMethod> reachableMethods,
-                           Set<JField>  reachableFields,
-                           Deque<JMethod> queue) {
+    private void propagate(Context context, Set<JClass>  reachableClasses,  Set<JClass>  instantiated,  Set<JMethod> reachableMethods, Set<JField>  reachableFields,  Deque<JMethod> queue) {
         while (!queue.isEmpty()) {
             JMethod method = queue.poll();
             scanBytecode(method, context,
@@ -102,18 +99,16 @@ public class TrimTransformer extends Transformer {
     }
 
     private void propagateOverrides(Context context,
-                                    Set<JClass>  reachableClasses,
-                                    Set<JClass>  instantiated,
-                                    Set<JMethod> reachableMethods,
-                                    Set<JField>  reachableFields,
-                                    Deque<JMethod> queue) {
+                                    Set<JClass>  reachableClasses, Set<JClass>  instantiated, Set<JMethod> reachableMethods, Set<JField>  reachableFields, Deque<JMethod> queue) {
         boolean changed = true;
         while (changed) {
             changed = false;
             for (JClass cls : context.classes()) {
-                if (!instantiated.contains(cls)) continue;
+                if (!instantiated.contains(cls)) 
+                     continue;
                 for (JMethod method : cls.methods()) {
-                    if (reachableMethods.contains(method)) continue;
+                    if (reachableMethods.contains(method)) 
+                      continue;
                     if (overridesReachable(method, cls, reachableMethods)) {
                         enqueue(cls, method, reachableClasses, instantiated, reachableMethods, queue);
                         changed = true;
@@ -129,14 +124,18 @@ public class TrimTransformer extends Transformer {
                            Set<JMethod> reachableMethods,
                            Set<JField>  reachableFields) {
         for (JClass cls : context.classes()) {
-            if (Exclusions.TRIM.excluded(cls)) continue;
+            if (Exclusions.TRIM.excluded(cls)) 
+                continue;
 
             if (trimMethods.value()) {
                 List<JMethod> dead = new ArrayList<>();
                 for (JMethod method : cls.methods()) {
-                    if (reachableMethods.contains(method)) continue;
-                    if (Exclusions.TRIM.excluded(method)) continue;
-                    if (cantEditMethod(cls, method, true, true)) continue;
+                    if (reachableMethods.contains(method)) 
+                        continue;
+                    if (Exclusions.TRIM.excluded(method)) 
+                        continue;
+                    if (cantEditMethod(cls, method, true, true)) 
+                        continue;
                     dead.add(method);
                 }
                 if (!dead.isEmpty()) {
@@ -148,8 +147,10 @@ public class TrimTransformer extends Transformer {
             if (trimFields.value()) {
                 List<JField> dead = new ArrayList<>();
                 for (JField field : cls.fields()) {
-                    if (reachableFields.contains(field)) continue;
-                    if (Exclusions.TRIM.excluded(field)) continue;
+                    if (reachableFields.contains(field)) 
+                        continue;
+                    if (Exclusions.TRIM.excluded(field)) 
+                        continue;
                     dead.add(field);
                 }
                 if (!dead.isEmpty()) {
@@ -162,7 +163,8 @@ public class TrimTransformer extends Transformer {
         if (trimClasses.value()) {
             List<String> deadNames = new ArrayList<>();
             for (JClass cls : context.classes()) {
-                if (Exclusions.TRIM.excluded(cls)) continue;
+                if (Exclusions.TRIM.excluded(cls)) 
+                    continue;
                 if (!reachableClasses.contains(cls)) {
                     deadNames.add(cls.name());
                 }
@@ -174,15 +176,11 @@ public class TrimTransformer extends Transformer {
         }
     }
 
-    private void scanBytecode(JMethod method,
-                               Context context,
-                               Set<JClass>  reachableClasses,
-                               Set<JClass>  instantiated,
-                               Set<JMethod> reachableMethods,
-                               Set<JField>  reachableFields,
-                               Deque<JMethod> queue) {
+    private void scanBytecode(JMethod method, Context context, Set<JClass>  reachableClasses,  Set<JClass>  instantiated,
+                              Set<JMethod> reachableMethods,  Set<JField>  reachableFields, Deque<JMethod> queue) {
         MethodNode mn = method.core();
-        if (mn.instructions == null) return;
+        if (mn.instructions == null) 
+            return;
 
         for (AbstractInsnNode insn : mn.instructions) {
             switch (insn.getType()) {
@@ -194,8 +192,7 @@ public class TrimTransformer extends Transformer {
                     boolean isNew = insn.getOpcode() == Opcodes.INVOKESPECIAL
                                  && mi.name.equals("<init>");
                     if (isNew) {
-                        markInstantiated(owner, reachableClasses, instantiated,
-                                         reachableMethods, queue);
+                        markInstantiated(owner, reachableClasses, instantiated,  reachableMethods, queue);
                     } else {
                         reachableClasses.add(owner);
                     }
@@ -218,10 +215,10 @@ public class TrimTransformer extends Transformer {
                 case AbstractInsnNode.TYPE_INSN -> {
                     TypeInsnNode ti = (TypeInsnNode) insn;
                     JClass ref = context.classMap().get(ti.desc);
-                    if (ref == null) break;
+                    if (ref == null) 
+                        break;
                     if (ti.getOpcode() == Opcodes.NEW) {
-                        markInstantiated(ref, reachableClasses, instantiated,
-                                         reachableMethods, queue);
+                        markInstantiated(ref, reachableClasses, instantiated, reachableMethods, queue);
                     } else {
                         reachableClasses.add(ref);
                     }
@@ -237,11 +234,14 @@ public class TrimTransformer extends Transformer {
 
                 case AbstractInsnNode.INVOKE_DYNAMIC_INSN -> {
                     InvokeDynamicInsnNode idi = (InvokeDynamicInsnNode) insn;
-                    if (idi.bsmArgs == null) break;
+                    if (idi.bsmArgs == null) 
+                        break;
                     for (Object arg : idi.bsmArgs) {
-                        if (!(arg instanceof Handle h)) continue;
+                        if (!(arg instanceof Handle h)) 
+                            continue;
                         JClass hClass = context.classMap().get(h.getOwner());
-                        if (hClass == null) continue;
+                        if (hClass == null) 
+                            continue;
                         reachableClasses.add(hClass);
                         hClass.findMethod(h.getName(), h.getDesc()).ifPresent(m ->
                             enqueue(hClass, m, reachableClasses, instantiated, reachableMethods, queue)
@@ -260,7 +260,8 @@ public class TrimTransformer extends Transformer {
 
         if (mn.tryCatchBlocks != null) {
             for (TryCatchBlockNode tcb : mn.tryCatchBlocks) {
-                if (tcb.type == null) continue;
+                if (tcb.type == null) 
+                    continue;
                 JClass excType = context.classMap().get(tcb.type);
                 if (excType != null) reachableClasses.add(excType);
             }
@@ -287,12 +288,9 @@ public class TrimTransformer extends Transformer {
         }
     }
 
-    private void enqueue(JClass cls,
-                         JMethod method,
-                         Set<JClass>  reachableClasses,
-                         Set<JClass>  instantiated,
-                         Set<JMethod> reachableMethods,
-                         Deque<JMethod> queue) {
+    private void enqueue(JClass cls, JMethod method,
+                         Set<JClass>  reachableClasses,  Set<JClass>  instantiated,
+                         Set<JMethod> reachableMethods, Deque<JMethod> queue) {
         reachableClasses.add(cls);
         if (!method.isStatic()) instantiated.add(cls);
         if (reachableMethods.add(method)) {
@@ -314,11 +312,7 @@ public class TrimTransformer extends Transformer {
         }
     }
 
-    private void seedStaticInitializer(JClass cls,
-                                        Set<JClass>  reachableClasses,
-                                        Set<JClass>  instantiated,
-                                        Set<JMethod> reachableMethods,
-                                        Deque<JMethod> queue) {
+    private void seedStaticInitializer(JClass cls, Set<JClass>  reachableClasses, Set<JClass>  instantiated, Set<JMethod> reachableMethods, Deque<JMethod> queue) {
         cls.findMethod("<clinit>", "()V").ifPresent(clinit ->
             enqueue(cls, clinit, reachableClasses, instantiated, reachableMethods, queue)
         );
@@ -330,16 +324,21 @@ public class TrimTransformer extends Transformer {
 
         if (name.equals("main")
                 && desc.equals("([Ljava/lang/String;)V")
-                && method.isStatic() && method.isPublic()) {
+                && method.isStatic() 
+                && method.isPublic()) {
             return true;
         }
 
-        if ((name.equals("premain") || name.equals("agentmain")) && method.isStatic()) {
+        if ((name.equals("premain") 
+         || name.equals("agentmain")) 
+         && method.isStatic()) {
             return true;
         }
 
-        if (name.equals("readObject") || name.equals("writeObject")
-         || name.equals("readResolve") || name.equals("writeReplace")
+        if (name.equals("readObject") 
+         || name.equals("writeObject")
+         || name.equals("readResolve") 
+         || name.equals("writeReplace")
          || name.equals("readObjectNoData")) {
             return true;
         }
@@ -355,11 +354,11 @@ public class TrimTransformer extends Transformer {
         return false;
     }
 
-    private boolean overridesReachable(JMethod method,
-                                        JClass cls,
-                                        Set<JMethod> reachableMethods) {
-        if (method.name().startsWith("<")) return false;
-        if (method.isStatic()) return false;
+    private boolean overridesReachable(JMethod method,JClass cls, Set<JMethod> reachableMethods) {
+        if (method.name().startsWith("<")) 
+            return false;
+        if (method.isStatic()) 
+            return false;
         for (JClass parent : cls.parents()) {
             for (JMethod parentMethod : parent.methods()) {
                 if (parentMethod.name().equals(method.name())
