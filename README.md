@@ -1,3 +1,14 @@
+> [!IMPORTANT]
+> **Community Continuation & Attribution Notice**
+> 
+> **AidsfuscatorX** is an unofficial, enhanced community continuation of **[Aidsfuscator](https://github.com/LvStrnggg/aidsfuscator)**, originally created and developed by **[LvStrnggg](https://github.com/LvStrnggg)** (`lvstrng` on Discord).
+> 
+**AidsfuscatorX** was created to implement experimental new transformers, additional obfuscation features, and community bug fixes.
+> 
+> * **Original Creator:** [LvStrnggg](https://github.com/LvStrnggg)
+> * **Upstream Repository:** [LvStrnggg/aidsfuscator](https://github.com/LvStrnggg/aidsfuscator)
+> * **Disclaimer:** All credit for the foundational architecture and core Java bytecode obfuscation engine goes to `LvStrnggg`.
+
 # Aidsfuscator v2.x
 Aidsfuscator is a java bytecode obfuscator that aims to become one of, if not the best free obfuscators. 
 <br>
@@ -183,18 +194,8 @@ When contributing, I expect bug fixes rather than new features. I can decide on 
 <div>
   If you're thinking about adding a feature, please contact me on discord `lvstrng` to talk it out. Or create an issue as a suggestion, stating what you want to see getting added into the obfuscator. One good example was: instead of forking the repo, writing the transformer and creating a pull request a guy made an issue as a suggestion, stating that they want to see Zelix-style flow in the obfuscator. I told the user this is probably not needed, because the current control flow obfuscation already does its magic. This user avoided wasting tons of time on something that I wouldn't agree on either way.
 </div>
-# AidsfuscatorX
 
-> [!IMPORTANT]
-> **Community Continuation & Attribution Notice**
-> 
-> **AidsfuscatorX** is an unofficial, enhanced community continuation of **[Aidsfuscator](https://github.com/LvStrnggg/aidsfuscator)**, originally created and developed by **[LvStrnggg](https://github.com/LvStrnggg)** (`lvstrng` on Discord).
-> 
-**AidsfuscatorX** was created to implement experimental new transformers, additional obfuscation features, and community bug fixes.
-> 
-> * **Original Creator:** [LvStrnggg](https://github.com/LvStrnggg)
-> * **Upstream Repository:** [LvStrnggg/aidsfuscator](https://github.com/LvStrnggg/aidsfuscator)
-> * **Disclaimer:** All credit for the foundational architecture and core Java bytecode obfuscation engine goes to `LvStrnggg`. 
+# AidsfuscatorX
 
 ---
 
