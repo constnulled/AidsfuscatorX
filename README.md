@@ -1,13 +1,13 @@
 > [!IMPORTANT]
 > **Community Continuation & Attribution Notice**
 > 
-> **AidsfuscatorX** is an unofficial, enhanced community continuation of **[Aidsfuscator](https://github.com/LvStrnggg/aidsfuscator)**, originally created and developed by **[LvStrnggg](https://github.com/LvStrnggg)** (`lvstrng` on Discord).
+> **AidsfuscatorX** is an unofficial, enhanced continuation of **[Aidsfuscator](https://github.com/LvStrnggg/aidsfuscator)**, originally created and developed by **[LvStrnggg](https://github.com/LvStrnggg)** (`lvstrng` on Discord).
 > 
-**AidsfuscatorX** was created to implement experimental new transformers, additional obfuscation features, and community bug fixes.
+**AidsfuscatorX** was created to implement experimental new transformers, additional obfuscation features, and bug fixes.
 > 
 > * **Original Creator:** [LvStrnggg](https://github.com/LvStrnggg)
 > * **Upstream Repository:** [LvStrnggg/aidsfuscator](https://github.com/LvStrnggg/aidsfuscator)
-> * **Disclaimer:** All credit for the foundational architecture and core Java bytecode obfuscation engine goes to `LvStrnggg`.
+> * **Disclaimer:** All credit for everything goes to `LvStrnggg`.
 
 # Aidsfuscator v2.x
 Aidsfuscator is a java bytecode obfuscator that aims to become one of, if not the best free obfuscators. 
