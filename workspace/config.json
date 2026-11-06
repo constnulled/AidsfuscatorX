@@ -4,6 +4,7 @@
   "libs": "libs/",
   "dictionary": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
   "computeFrames": true,
+  "strictDependencies": false,
   "watermark": "i like kuzhi Mandi",
   "mappingFormat": "proguard",
   "aggressiveOverload": true,

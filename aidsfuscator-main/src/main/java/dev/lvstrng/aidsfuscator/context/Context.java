@@ -40,7 +40,7 @@ public class Context {
     private final Map<String, JClass> classes, artificials, libraries, excluded;
     private int writerFlags;
     private int version;
-    private boolean computeFrames, aggressiveOverload;
+    private boolean computeFrames, aggressiveOverload, strictDependencies;
     private String dictionaryString;
     private String watermark;
     private String mappingFormat;
@@ -320,6 +320,10 @@ public class Context {
         return aggressiveOverload;
     }
 
+    public boolean strictDependencies() {
+        return strictDependencies;
+    }
+
     // -----------------
     // ---- BUILDER ----
     // -----------------
@@ -356,6 +360,11 @@ public class Context {
     public Context computeFrames() {
         this.computeFrames = true;
         this.writerFlags |= ClassWriter.COMPUTE_FRAMES;
+        return this;
+    }
+
+    public Context strictDependencies() {
+        this.strictDependencies = true;
         return this;
     }
 

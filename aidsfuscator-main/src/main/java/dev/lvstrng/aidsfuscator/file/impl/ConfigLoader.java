@@ -45,6 +45,9 @@ public class ConfigLoader implements Loader {
         if(configObject.get("computeFrames").getAsBoolean())
             context.computeFrames();
 
+        if(configObject.has("strictDependencies") && configObject.get("strictDependencies").getAsBoolean())
+            context.strictDependencies();
+
         if(configObject.has("exclusionPresets")) {
             context.presetLoader().withKeys(
                     configObject.get("exclusionPresets").getAsJsonArray().asList().stream().map(JsonElement::getAsString).toList()
