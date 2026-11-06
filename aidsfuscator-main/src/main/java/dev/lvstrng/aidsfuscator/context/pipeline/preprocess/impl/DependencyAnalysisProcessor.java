@@ -14,7 +14,7 @@ public class DependencyAnalysisProcessor implements IProcessor {
         var report = new DependencyAnalyzer(context).analyze();
         report.log();
 
-        if (report.hasMissingDependencies() && context.strictDependencies())
+        if (report.hasMissingDependencies() && context.doesStrictDependencies())
             throw new MissingDependencyException(report.missingClasses().size());
     }
 }

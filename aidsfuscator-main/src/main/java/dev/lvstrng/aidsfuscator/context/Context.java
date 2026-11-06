@@ -320,7 +320,7 @@ public class Context {
         return aggressiveOverload;
     }
 
-    public boolean strictDependencies() {
+    public boolean doesStrictDependencies() {
         return strictDependencies;
     }
 
